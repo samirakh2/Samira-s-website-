@@ -1,686 +1,407 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Samira Kaur</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #08080f;
-    --surface: #0f0f1a;
-    --border: rgba(255,255,255,0.07);
-    --accent: #e8735a;
-    --accent-dim: rgba(232,115,90,0.15);
-    --glow: rgba(232,115,90,0.08);
-    --text: #f0ede8;
-    --muted: rgba(240,237,232,0.45);
-    --dimmed: rgba(240,237,232,0.25);
-    --nav-w: 280px;
+    --bg: #1A2332;
+    --bg-elevated: #232E42;
+    --text: #F7F5F0;
+    --text-muted: #9AA8B5;
+    --text-dim: #5B6B7C;
+    --gold: #e8735a;
+    --border: rgba(247, 245, 240, 0.08);
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
   }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    line-height: 1.7;
-    min-height: 100vh;
-    display: flex;
+  [data-theme="light"] {
+    --bg: #F7F5F0;
+    --bg-elevated: #FFFFFF;
+    --text: #1A2332;
+    --text-muted: #5B6B7C;
+    --text-dim: #9AA8B5;
+    --border: rgba(26, 35, 50, 0.08);
   }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-body); line-height: 1.6; -webkit-font-smoothing: antialiased; transition: background 0.3s, color 0.3s; }
+  .layout { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
 
-  /* Ambient star field */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.5) 0%, transparent 100%),
-      radial-gradient(1px 1px at 25% 60%, rgba(255,255,255,0.3) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 40% 10%, rgba(255,255,255,0.4) 0%, transparent 100%),
-      radial-gradient(1px 1px at 55% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
-      radial-gradient(1px 1px at 70% 35%, rgba(255,255,255,0.5) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 85% 70%, rgba(255,255,255,0.3) 0%, transparent 100%),
-      radial-gradient(1px 1px at 92% 15%, rgba(255,255,255,0.4) 0%, transparent 100%),
-      radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,0.2) 0%, transparent 100%),
-      radial-gradient(1px 1px at 60% 50%, rgba(255,255,255,0.25) 0%, transparent 100%),
-      radial-gradient(1px 1px at 78% 90%, rgba(255,255,255,0.3) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 33% 42%, rgba(255,255,255,0.2) 0%, transparent 100%),
-      radial-gradient(1px 1px at 48% 28%, rgba(255,255,255,0.35) 0%, transparent 100%);
-    pointer-events: none;
-    z-index: 0;
+  /* SIDEBAR */
+  .sidebar { border-right: 1px solid var(--border); padding: 40px 32px; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; }
+  .sidebar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 36px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; }
+  .brand .dot { width: 10px; height: 10px; border-radius: 2px; background: var(--gold); flex-shrink: 0; }
+  .theme-toggle { background: none; border: 1px solid var(--border); border-radius: 4px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--text); font-size: 1rem; transition: border-color 0.2s; }
+  .theme-toggle:hover { border-color: var(--gold); }
+  .sidebar-section { margin-bottom: 32px; }
+  .sidebar-section h3 { font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--text-dim); margin-bottom: 14px; }
+  .about-snippet { font-size: 0.92rem; color: var(--text-muted); }
+  .about-snippet strong { color: var(--gold); font-weight: 600; }
+  .nav-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+  .nav-list button { display: flex; align-items: center; gap: 12px; width: 100%; background: none; border: none; text-align: left; font-family: var(--font-body); font-size: 0.95rem; font-weight: 500; color: var(--text-muted); padding: 10px 12px; border-radius: 6px; cursor: pointer; transition: background 0.2s, color 0.2s; }
+  .nav-list button:hover { background: var(--bg-elevated); color: var(--text); }
+  .nav-list button.active { background: var(--bg-elevated); color: var(--gold); }
+  .nav-list .icon { font-family: var(--font-mono); font-size: 0.85rem; width: 20px; text-align: center; }
+  .sidebar-footer { margin-top: auto; }
+  .connect-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .connect-list a { font-size: 0.88rem; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+  .connect-list a:hover { color: var(--gold); }
+
+  /* MAIN */
+  .main { padding: 40px 64px; max-width: 1100px; }
+  .page { display: none; }
+  .page.active { display: block; animation: fadeIn 0.35s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* PLANET */
+  .planet-hero { display: flex; justify-content: center; margin-bottom: 32px; }
+  .planet-hero canvas { display: block; max-width: 100%; }
+
+  /* PAGE SECTIONS */
+  .page-title { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+  .page-title .emoji-tile { font-family: var(--font-mono); font-size: 1.1rem; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-weight: 700; flex-shrink: 0; }
+  .page-title h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.02em; }
+  .page-desc { font-size: 1.05rem; color: var(--text-muted); max-width: 640px; margin-bottom: 48px; }
+  .about-content p { font-size: 1.02rem; color: var(--text-muted); margin-bottom: 18px; max-width: 700px; }
+  .about-content strong { color: var(--text); font-weight: 600; }
+  .about-content .gold { color: var(--gold); font-weight: 600; }
+
+  .stat-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 40px 0; max-width: 700px; }
+  .stat-strip .stat { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 6px; padding: 20px; }
+  .stat-strip .stat .num { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 600; color: var(--gold); display: block; margin-bottom: 6px; }
+  .stat-strip .stat .lbl { font-size: 0.82rem; color: var(--text-dim); }
+
+  .section-block { margin-top: 48px; }
+  .section-block h2 { font-family: var(--font-display); font-size: 1.3rem; font-weight: 600; margin-bottom: 20px; }
+  .tag-cloud { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+  .tag { font-family: var(--font-mono); font-size: 0.82rem; padding: 6px 14px; border: 1px solid var(--border); border-radius: 4px; color: var(--text-muted); transition: border-color 0.2s, color 0.2s; }
+  .tag:hover { border-color: var(--gold); color: var(--gold); }
+
+  .timeline-item { padding: 24px 0; border-top: 1px solid var(--border); max-width: 700px; }
+  .timeline-item:first-child { border-top: none; padding-top: 0; }
+  .timeline-date { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+  .timeline-item h3 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; margin-bottom: 2px; }
+  .timeline-item .org { font-size: 0.88rem; color: var(--gold); margin-bottom: 10px; }
+  .timeline-item ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .timeline-item li { font-size: 0.92rem; color: var(--text-muted); padding-left: 18px; position: relative; }
+  .timeline-item li::before { content: '—'; position: absolute; left: 0; color: var(--gold); }
+
+  .project-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .project-card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; padding: 24px; display: flex; flex-direction: column; transition: border-color 0.25s, transform 0.25s; }
+  .project-card:hover { border-color: var(--gold); transform: translateY(-3px); }
+  .project-card .proj-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+  .proj-date { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-dim); }
+  .proj-metric { font-family: var(--font-mono); font-size: 0.95rem; font-weight: 600; color: var(--gold); }
+  .project-card a.proj-title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; color: var(--gold); text-decoration: none; margin-bottom: 6px; display: inline-block; transition: color 0.2s; }
+  .project-card a.proj-title:hover { text-decoration: underline; }
+  .project-card .proj-desc { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 14px; }
+  .project-card .stack { font-family: var(--font-mono); font-size: 0.74rem; color: var(--text-dim); margin-top: auto; }
+
+  .empty-state { border: 1px dashed var(--border); border-radius: 8px; padding: 60px 32px; text-align: center; color: var(--text-dim); max-width: 500px; }
+  .empty-state .icon { font-size: 1.8rem; margin-bottom: 12px; display: block; }
+  .empty-state p { font-size: 0.95rem; }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { position: relative; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+    .main { padding: 40px 24px; }
+    .project-grid { grid-template-columns: 1fr; }
+    .stat-strip { grid-template-columns: 1fr; }
   }
-
-  /* Sidebar */
-  nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: var(--nav-w);
-    height: 100vh;
-    border-right: 1px solid var(--border);
-    padding: 2.5rem 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    z-index: 10;
-    background: rgba(8,8,15,0.85);
-    backdrop-filter: blur(12px);
-    overflow-y: auto;
-  }
-
-  .nav-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .nav-brand .orbit {
-    width: 28px;
-    height: 28px;
-    position: relative;
-    flex-shrink: 0;
-  }
-
-  .nav-brand .orbit svg {
-    width: 28px;
-    height: 28px;
-  }
-
-  .nav-brand h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.05rem;
-    font-weight: 500;
-    letter-spacing: -0.01em;
-    color: var(--text);
-  }
-
-  .nav-divider {
-    border: none;
-    border-top: 1px solid var(--border);
-  }
-
-  .nav-section-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--dimmed);
-    margin-bottom: 0.5rem;
-  }
-
-  .nav-links {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .nav-links a {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 10px;
-    border-radius: 6px;
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 400;
-    transition: color 0.15s, background 0.15s;
-  }
-
-  .nav-links a:hover,
-  .nav-links a.active {
-    color: var(--text);
-    background: var(--accent-dim);
-  }
-
-  .nav-links a.active {
-    color: var(--accent);
-  }
-
-  .nav-links a .icon {
-    font-size: 1rem;
-    opacity: 0.6;
-  }
-
-  .nav-links a:hover .icon,
-  .nav-links a.active .icon { opacity: 1; }
-
-  .nav-connect {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-top: auto;
-  }
-
-  .nav-connect a {
-    color: var(--dimmed);
-    font-size: 0.82rem;
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-
-  .nav-connect a:hover { color: var(--accent); }
-
-  /* Main content */
-  main {
-    margin-left: var(--nav-w);
-    padding: 4rem 5rem;
-    max-width: 860px;
-    position: relative;
-    z-index: 1;
-    flex: 1;
-  }
-
-  /* Glow orb — subtle ambient light top-right of main */
-  main::after {
-    content: '';
-    position: fixed;
-    top: -180px;
-    right: -180px;
-    width: 500px;
-    height: 500px;
-    background: radial-gradient(circle, rgba(232,115,90,0.06) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* Sections */
-  section {
-    padding: 4rem 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  section:last-child { border-bottom: none; }
-
-  .section-eyebrow {
-    font-size: 0.7rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1rem;
-    opacity: 0.8;
-  }
-
-  h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.75rem;
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    margin-bottom: 1.5rem;
-    color: var(--text);
-  }
-
-  p { color: var(--muted); max-width: 60ch; }
-
-  /* About */
-  #about .name-highlight {
-    color: var(--accent);
-    font-weight: 500;
-  }
-
-  /* Skills row */
-  .skills-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 1.5rem;
-  }
-
-  .skill-tag {
-    font-size: 0.75rem;
-    padding: 4px 10px;
-    border-radius: 4px;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    background: rgba(255,255,255,0.03);
-    font-family: 'Space Grotesk', sans-serif;
-    letter-spacing: 0.01em;
-  }
-
-  /* Projects */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 1px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    margin-top: 0.5rem;
-  }
-
-  .project-card {
-    background: var(--surface);
-    padding: 1.5rem;
-    text-decoration: none;
-    display: block;
-    transition: background 0.15s;
-    position: relative;
-    border-right: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .project-card:hover {
-    background: rgba(232,115,90,0.05);
-  }
-
-  .project-card:hover .project-title {
-    color: var(--accent);
-  }
-
-  .project-year {
-    font-size: 0.72rem;
-    color: var(--dimmed);
-    margin-bottom: 0.4rem;
-    font-family: 'Space Grotesk', sans-serif;
-    letter-spacing: 0.05em;
-  }
-
-  .project-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 0.5rem;
-    transition: color 0.15s;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 8px;
-  }
-
-  .project-title .arrow {
-    opacity: 0;
-    color: var(--accent);
-    font-size: 0.8rem;
-    transition: opacity 0.15s;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-
-  .project-card:hover .arrow { opacity: 1; }
-
-  .project-desc {
-    font-size: 0.82rem;
-    color: var(--dimmed);
-    line-height: 1.5;
-    margin-bottom: 0.75rem;
-  }
-
-  .project-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-  }
-
-  .project-tag {
-    font-size: 0.68rem;
-    padding: 2px 7px;
-    border-radius: 3px;
-    background: rgba(232,115,90,0.08);
-    color: rgba(232,115,90,0.7);
-    font-family: 'Space Grotesk', sans-serif;
-  }
-
-  /* Experience */
-  .exp-item {
-    padding: 1.5rem 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .exp-item:last-child { border-bottom: none; }
-
-  .exp-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-bottom: 0.3rem;
-    flex-wrap: wrap;
-  }
-
-  .exp-role {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: var(--text);
-  }
-
-  .exp-period {
-    font-size: 0.75rem;
-    color: var(--dimmed);
-    white-space: nowrap;
-    font-family: 'Space Grotesk', sans-serif;
-    letter-spacing: 0.02em;
-  }
-
-  .exp-org {
-    font-size: 0.82rem;
-    color: var(--accent);
-    margin-bottom: 0.75rem;
-    opacity: 0.85;
-  }
-
-  .exp-bullets {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .exp-bullets li {
-    font-size: 0.84rem;
-    color: var(--muted);
-    padding-left: 1.1rem;
-    position: relative;
-    line-height: 1.6;
-  }
-
-  .exp-bullets li::before {
-    content: '—';
-    position: absolute;
-    left: 0;
-    color: var(--dimmed);
-    font-size: 0.75rem;
-    top: 2px;
-  }
-
-  /* Contact */
-  .contact-links {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 0.5rem;
-  }
-
-  .contact-link {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.88rem;
-    transition: color 0.15s;
-  }
-
-  .contact-link:hover { color: var(--accent); }
-
-  .contact-link .contact-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.85rem;
-    background: var(--surface);
-    flex-shrink: 0;
-  }
-
-  /* Mobile */
-  .mobile-nav-toggle {
-    display: none;
-    position: fixed;
-    top: 1rem;
-    left: 1rem;
-    z-index: 100;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    color: var(--text);
-    border-radius: 6px;
-    width: 36px;
-    height: 36px;
-    cursor: pointer;
-    font-size: 1.1rem;
-    align-items: center;
-    justify-content: center;
-  }
-
-  @media (max-width: 540px) {
-    :root { --nav-w: 240px; }
-    main { margin-left: 0; padding: 5rem 1.5rem 2rem; }
-    nav { transform: translateX(-100%); transition: transform 0.25s; }
-    nav.open { transform: translateX(0); }
-    .mobile-nav-toggle { display: flex; }
-    .projects-grid { grid-template-columns: 1fr; }
-    h2 { font-size: 1.4rem; }
-  }
-
-  @media (max-width: 720px) and (min-width: 541px) {
-    :root { --nav-w: 220px; }
-    main { padding: 3rem 2rem; }
-    .projects-grid { grid-template-columns: 1fr; }
-  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 </style>
 </head>
-<body>
+<body data-theme="dark">
 
-<button class="mobile-nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+<div class="layout">
 
-<nav id="sidebar">
-  <div class="nav-brand">
-    <div class="orbit">
-      <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="14" cy="14" r="13" stroke="rgba(232,115,90,0.3)" stroke-width="1"/>
-        <circle cx="14" cy="14" r="4" fill="#e8735a" opacity="0.9"/>
-        <circle cx="14" cy="3.5" r="2" fill="rgba(232,115,90,0.5)"/>
-      </svg>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="brand"><span class="dot"></span> Samira Kaur</div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">☼</button>
     </div>
-    <h1>Samira Kaur</h1>
-  </div>
-
-  <hr class="nav-divider" />
-
-  <div>
-    <p class="nav-section-label">Navigation</p>
-    <ul class="nav-links">
-      <li><a href="#about" class="active"><span class="icon">◎</span> About Me</a></li>
-      <li><a href="#projects"><span class="icon">◈</span> Projects</a></li>
-      <li><a href="#experience"><span class="icon">◇</span> Experience</a></li>
-      <li><a href="#contact"><span class="icon">◉</span> Contact</a></li>
-    </ul>
-  </div>
-
-  <hr class="nav-divider" />
-
-  <div class="nav-connect">
-    <p class="nav-section-label">Stay Connected</p>
-    <a href="mailto:samira2005khan@gmail.com">Email</a>
-    <a href="https://linkedin.com/in/samira-kaur" target="_blank">LinkedIn</a>
-    <a href="https://github.com/samirakh2" target="_blank">GitHub</a>
-  </div>
-</nav>
-
-<main>
-
-  <!-- About -->
-  <section id="about">
-    <p class="section-eyebrow">Hello, world</p>
-    <h2>About Me</h2>
-    <p>I'm <span class="name-highlight">Samira</span>, a data science student at Wilfrid Laurier University with a minor in Physics. I build things at the intersection of machine learning, analytics, and real-world decision-making.</p>
-    <br />
-    <p>I'm currently VP of Internal Affairs at the Laurier Analytics Society and Director of Education at Case Hacks, where I help students learn to build and think analytically. When I'm not wrangling datasets, I'm designing systems that make data legible for people who need it most.</p>
-    <div class="skills-row">
-      <span class="skill-tag">Python</span>
-      <span class="skill-tag">SQL</span>
-      <span class="skill-tag">R</span>
-      <span class="skill-tag">Java</span>
-      <span class="skill-tag">Scikit-learn</span>
-      <span class="skill-tag">XGBoost</span>
-      <span class="skill-tag">LightGBM</span>
-      <span class="skill-tag">SHAP</span>
-      <span class="skill-tag">Pandas</span>
-      <span class="skill-tag">OpenAI API</span>
-      <span class="skill-tag">ChromaDB</span>
-      <span class="skill-tag">Power BI</span>
-      <span class="skill-tag">Excel</span>
-      <span class="skill-tag">Git</span>
+    <div class="sidebar-section">
+      <h3>About Me</h3>
+      <p class="about-snippet">I'm <strong>Samira</strong>, a data science student building <span style="color:var(--gold);font-weight:600">ML, finance & risk</span> projects.</p>
     </div>
-  </section>
-
-  <!-- Projects -->
-  <section id="projects">
-    <p class="section-eyebrow">What I've built</p>
-    <h2>Projects</h2>
-    <div class="projects-grid">
-
-      <a href="https://github.com/samirakh2/Credit_Risk_Pipepline" target="_blank" class="project-card">
-        <div class="project-year">April 2026</div>
-        <div class="project-title">
-          Credit Risk Model & Policy Report
-          <span class="arrow">↗</span>
-        </div>
-        <p class="project-desc">Cost-sensitive pipeline across 5,700+ borrower records. Optimized XGBoost to minimize expected loss to $1.79M with 92.6% precision.</p>
-        <div class="project-tags">
-          <span class="project-tag">Python</span>
-          <span class="project-tag">XGBoost</span>
-          <span class="project-tag">SHAP</span>
-          <span class="project-tag">LightGBM</span>
-        </div>
-      </a>
- 
-      <a href="https://github.com/samirakh2/Enterprise-Document-Q.A-System-" target="_blank" class="project-card">
-        <div class="project-year">January 2026</div>
-        <div class="project-title">
-          Enterprise Document Q&A System
-          <span class="arrow">↗</span>
-        </div>
-        <p class="project-desc">RAG evaluation pipeline across 12 test queries, achieving 83% answer accuracy with citation-based grounding and hallucination reduction.</p>
-        <div class="project-tags">
-          <span class="project-tag">RAG</span>
-          <span class="project-tag">OpenAI</span>
-          <span class="project-tag">ChromaDB</span>
-        </div>
-      </a>
-
-      <a href="https://github.com/samirakh2/Customer-Segmentation-&-Marketing-Analytics" target="_blank" class="project-card">
-        <div class="project-year">December 2025</div>
-        <div class="project-title">
-          Customer Segmentation & Marketing Analytics
-          <span class="arrow">↗</span>
-        </div>
-        <p class="project-desc">K-Means segmentation on 1,000+ bank customer records, surfacing 6 behavioral segments including high-value targets for premium products.</p>
-        <div class="project-tags">
-          <span class="project-tag">K-Means</span>
-          <span class="project-tag">Pandas</span>
-          <span class="project-tag">Scikit-learn</span>
-        </div>
-      </a>
-
-      <a href="https://github.com/samirakh2/Market-Stress-Monitoring-Dashboard" target="_blank" class="project-card">
-        <div class="project-year">October 2025</div>
-        <div class="project-title">
-          Market Stress Monitoring Dashboard
-          <span class="arrow">↗</span>
-        </div>
-        <p class="project-desc">Dashboard tracking volatility and stress classifications across 5,200+ market records using SQL CASE logic and interactive Excel visualizations.</p>
-        <div class="project-tags">
-          <span class="project-tag">SQL</span>
-          <span class="project-tag">Python</span>
-          <span class="project-tag">Excel</span>
-        </div>
-      </a>
-
-    </div>
-  </section>
-
-  <!-- Experience -->
-  <section id="experience">
-    <p class="section-eyebrow">Where I've worked</p>
-    <h2>Experience</h2>
-
-    <div class="exp-item">
-      <div class="exp-header">
-        <div class="exp-role">Director of Education</div>
-        <div class="exp-period">Sept. 2025 – Present</div>
-      </div>
-      <div class="exp-org">Case Hacks · Waterloo, Ontario</div>
-      <ul class="exp-bullets">
-        <li>Organized a Scotiabank-sponsored case hackathon covering workshop planning, sponsor proposals, and case design around youth investment adoption.</li>
-        <li>Taught students to use OpenAI Codex and Google Stitch for rapid prototyping and pitch development during the event.</li>
+    <div class="sidebar-section">
+      <h3>Pages</h3>
+      <ul class="nav-list">
+        <li><button data-page="about" class="active"><span class="icon">01</span> About Me</button></li>
+        <li><button data-page="notes"><span class="icon">02</span> Notes</button></li>
+        <li><button data-page="projects"><span class="icon">03</span> Projects</button></li>
       </ul>
     </div>
-
-    <div class="exp-item">
-      <div class="exp-header">
-        <div class="exp-role">Vice President of Internal Affairs</div>
-        <div class="exp-period">Sept. 2025 – Present</div>
-      </div>
-      <div class="exp-org">Laurier Analytics Society · Waterloo, Ontario</div>
-      <ul class="exp-bullets">
-        <li>Managed operations for a 15-member team, coordinating tasks and improving efficiency across initiatives.</li>
-        <li>Organized internal programs to strengthen team engagement and cross-functional collaboration.</li>
+    <div class="sidebar-footer sidebar-section">
+      <h3>Stay Connected</h3>
+      <ul class="connect-list">
+        <li><a href="mailto:samira2005khan@gmail.com">Email</a></li>
+        <li><a href="https://linkedin.com/in/samira-kaur" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://github.com/samirakh2" target="_blank" rel="noopener">GitHub</a></li>
       </ul>
     </div>
+  </aside>
 
-    <div class="exp-item">
-      <div class="exp-header">
-        <div class="exp-role">Content Director</div>
-        <div class="exp-period">Sept. 2024 – Sept. 2025</div>
+  <main class="main">
+
+    <!-- ABOUT -->
+    <section class="page active" id="page-about">
+      <div class="planet-hero">
+        <canvas id="saturn" width="680" height="420"></canvas>
       </div>
-      <div class="exp-org">Laurier Analytics Society · Waterloo, Ontario</div>
-      <ul class="exp-bullets">
-        <li>Developed educational content in Python and SQL for analytics workshops attended by dozens of students.</li>
-        <li>Co-organized a datathon hosted at Google, guiding 30–40 participants through problem scoping and project execution.</li>
-      </ul>
-    </div>
+      <div class="page-title">
+        <div class="emoji-tile">01</div>
+        <h1>About Me</h1>
+      </div>
+      <p class="page-desc">Data science student at Wilfrid Laurier University, minoring in Physics. I build models and dashboards people can act on — from credit risk to customer segmentation.</p>
+      <div class="about-content">
+        <p>I'm currently a <strong>Data Science student at Wilfrid Laurier University</strong> (Class of 2028), based in Waterloo, Ontario. Most of my work sits at the intersection of <span class="gold">machine learning, financial risk, and making results understandable</span> to people who aren't going to read a model summary.</p>
+        <p>Outside coursework, I'm <strong>Director of Education at Case Hacks</strong>, where I helped run a Scotiabank-sponsored hackathon and taught students rapid prototyping with OpenAI Codex and Google Stitch. I'm also <strong>VP of Internal Affairs at the Laurier Analytics Society</strong>, coordinating a 15-person team, after a year as Content Director building Python and SQL workshops for 30–40 students at a time.</p>
+        <div class="stat-strip">
+          <div class="stat"><span class="num">$1.79M</span><span class="lbl">Expected loss minimized in a credit risk model</span></div>
+          <div class="stat"><span class="num">83%</span><span class="lbl">Answer accuracy in a RAG Q&A system</span></div>
+          <div class="stat"><span class="num">5,700+</span><span class="lbl">Borrower records analyzed</span></div>
+        </div>
+        <div class="section-block">
+          <h2>Skills</h2>
+          <div class="tag-cloud">
+            <span class="tag">Python</span><span class="tag">SQL</span><span class="tag">Java</span><span class="tag">C</span><span class="tag">R</span>
+            <span class="tag">Pandas</span><span class="tag">NumPy</span><span class="tag">Scikit-learn</span><span class="tag">XGBoost</span>
+            <span class="tag">LightGBM</span><span class="tag">SHAP</span><span class="tag">ChromaDB</span><span class="tag">OpenAI API</span>
+            <span class="tag">Matplotlib</span><span class="tag">Git / GitHub</span><span class="tag">Power BI</span>
+          </div>
+        </div>
+        <div class="section-block">
+          <h2>Experience</h2>
+          <div class="timeline-item">
+            <div class="timeline-date">Sept 2025 — Present</div>
+            <h3>Director of Education</h3>
+            <div class="org">Case Hacks · Waterloo, ON</div>
+            <ul>
+              <li>Organized a Scotiabank-sponsored case hackathon, supporting workshop planning, sponsor proposal development, and case design focused on increasing investment adoption among young Canadian banking clients.</li>
+              <li>Facilitated hands-on technical support, teaching students to use OpenAI Codex and Google Stitch for rapid prototyping and pitch development.</li>
+            </ul>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">Sept 2025 — Present</div>
+            <h3>Vice President of Internal Affairs</h3>
+            <div class="org">Laurier Analytics Society · Waterloo, ON</div>
+            <ul>
+              <li>Managed operations for a 15-member team, coordinating tasks, tracking progress, and improving operational efficiency.</li>
+              <li>Organized internal initiatives to improve team engagement and strengthen collaboration.</li>
+            </ul>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-date">Sept 2024 — Sept 2025</div>
+            <h3>Content Director</h3>
+            <div class="org">Laurier Analytics Society · Waterloo, ON</div>
+            <ul>
+              <li>Developed educational content, including presentations and coding examples in Python and SQL, for student workshops in analytics and programming.</li>
+              <li>Co-organized a student case competition/datathon hosted at Google, guiding 30–40 participants through brainstorming, problem scoping, and event logistics.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  </section>
+    <!-- NOTES -->
+    <section class="page" id="page-notes">
+      <div class="page-title"><div class="emoji-tile">02</div><h1>Notes</h1></div>
+      <p class="page-desc">Thoughts, write-ups, and things I'm learning. Coming soon.</p>
+      <div class="empty-state"><span class="icon">···</span><p>Nothing here yet — check back later.</p></div>
+    </section>
 
-  <!-- Contact -->
-  <section id="contact">
-    <p class="section-eyebrow">Get in touch</p>
-    <h2>Contact</h2>
-    <p>I'm always open to interesting conversations, collaborations, or opportunities. Feel free to reach out.</p>
-    <br />
-    <div class="contact-links">
-      <a href="mailto:samira2005khan@gmail.com" class="contact-link">
-        <div class="contact-icon">✉</div>
-        samira2005khan@gmail.com
-      </a>
-      <a href="https://linkedin.com/in/samira-kaur" target="_blank" class="contact-link">
-        <div class="contact-icon">in</div>
-        linkedin.com/in/samira-kaur
-      </a>
-      <a href="https://github.com/samirakh2" target="_blank" class="contact-link">
-        <div class="contact-icon">⌥</div>
-        github.com/samirakh2
-      </a>
-    </div>
-  </section>
+    <!-- PROJECTS -->
+    <section class="page" id="page-projects">
+      <div class="page-title"><div class="emoji-tile">03</div><h1>Projects</h1></div>
+      <p class="page-desc">Things I've built, mostly in Python — credit risk, NLP, segmentation, and dashboards. Click a title to view the source on GitHub.</p>
+      <div class="project-grid">
+        <div class="project-card">
+          <div class="proj-top"><span class="proj-date">2026</span><span class="proj-metric">$1.79M</span></div>
+          <a class="proj-title" href="https://github.com/samirakh2" target="_blank" rel="noopener">Credit Risk Model & Policy Report</a>
+          <p class="proj-desc">Cost-sensitive credit risk pipeline across 5,700+ records, comparing Logistic Regression, Random Forest, XGBoost, and LightGBM. SHAP-based interpretability informed lending policy.</p>
+          <div class="stack">Python · Scikit-learn · XGBoost · LightGBM · SHAP</div>
+        </div>
+        <div class="project-card">
+          <div class="proj-top"><span class="proj-date">2026</span><span class="proj-metric">83%</span></div>
+          <a class="proj-title" href="https://github.com/samirakh2" target="_blank" rel="noopener">Enterprise Document Q&A System</a>
+          <p class="proj-desc">RAG evaluation pipeline with vector search, chunking, and citation-based answers — built to reduce hallucinated outputs and improve retrieval grounding.</p>
+          <div class="stack">Python · RAG · OpenAI · ChromaDB</div>
+        </div>
+        <div class="project-card">
+          <div class="proj-top"><span class="proj-date">2025</span><span class="proj-metric">6 segments</span></div>
+          <a class="proj-title" href="https://github.com/samirakh2" target="_blank" rel="noopener">Customer Segmentation & Marketing Analytics</a>
+          <p class="proj-desc">K-Means segmentation on 1,000+ bank customer records using elbow and silhouette analysis to surface high-value behavioral segments.</p>
+          <div class="stack">Python · Pandas · Scikit-learn</div>
+        </div>
+        <div class="project-card">
+          <div class="proj-top"><span class="proj-date">2025</span><span class="proj-metric">5,200+</span></div>
+          <a class="proj-title" href="https://github.com/samirakh2" target="_blank" rel="noopener">Market Stress Monitoring Dashboard</a>
+          <p class="proj-desc">SQL CASE logic in SQLite classifying market records into stress levels, paired with an interactive Excel dashboard for KPI tracking.</p>
+          <div class="stack">Python · SQL · Excel</div>
+        </div>
+      </div>
+    </section>
 
-</main>
+  </main>
+</div>
 
 <script>
-  const toggle = document.getElementById('navToggle');
-  const sidebar = document.getElementById('sidebar');
-  toggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+(function() {
+  const canvas = document.getElementById('saturn');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = 680, H = 420;
+  canvas.width = W; canvas.height = H;
 
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-links a');
+  const cx = 340, cy = 200, pr = 130;
+  const rx = 220, ry = 50, ringOffsetY = 26;
+  const TILT = 20 * Math.PI / 180;
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        navLinks.forEach(a => a.classList.remove('active'));
-        const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
-        if (active) active.classList.add('active');
+  const stars = Array.from({length: 22}, () => ({
+    x: Math.random()*W, y: Math.random()*H,
+    r: Math.random()*1.2+0.4, o: Math.random()*0.4+0.2
+  }));
+
+  let angle = 0, driftT = 0, spinT = 0;
+  const fullText = 'hello, world  \u2736  '.repeat(4);
+
+  const bands = [
+    {y:-38,ry:15,r:232,g:134,b:26, a:0.28,speed:0.6},
+    {y:-13,ry:10,r:201,g:96, b:16, a:0.32,speed:1.0},
+    {y: 10,ry: 9,r:240,g:160,b:48, a:0.20,speed:0.7},
+    {y: 32,ry:12,r:158,g:69, b:16, a:0.28,speed:1.3},
+    {y:-65,ry: 7,r:245,g:184,b:80, a:0.22,speed:0.45},
+    {y: 54,ry: 8,r:180,g:80, b:12, a:0.20,speed:0.9},
+  ];
+
+  function ringPoint(ox, oy, t) {
+    const lx = rx * Math.cos(t), ly = ry * Math.sin(t) + ringOffsetY;
+    return {
+      x: cx+ox + lx*Math.cos(TILT) - ly*Math.sin(TILT),
+      y: cy+oy + lx*Math.sin(TILT) + ly*Math.cos(TILT)
+    };
+  }
+
+  function drawRingHalf(ox, oy, which) {
+    ctx.save();
+    const rcx = cx+ox, rcy = cy+oy+ringOffsetY;
+    ctx.translate(rcx, rcy); ctx.rotate(TILT); ctx.translate(-rcx, -rcy);
+    if (which === 'back') {
+      ctx.beginPath(); ctx.rect(rcx-340, rcy, 680, 300); ctx.clip();
+    } else {
+      ctx.beginPath(); ctx.rect(rcx-340, rcy-300, 680, 300); ctx.clip();
+    }
+    [{w:36,c:'rgba(200,120,28,0.54)',dr:0},{w:10,c:'rgba(240,160,48,0.22)',dr:26},
+     {w:8, c:'rgba(168,94,16,0.38)', dr:-34},{w:5,c:'rgba(107,42,6,0.40)',  dr:-62}
+    ].forEach(b => {
+      ctx.beginPath();
+      ctx.ellipse(cx+ox, cy+oy+ringOffsetY, rx+b.dr, ry+b.dr*(ry/rx), 0, 0, Math.PI*2);
+      ctx.strokeStyle = b.c; ctx.lineWidth = b.w; ctx.stroke();
+    });
+    ctx.restore();
+  }
+
+  function drawPlanet(ox, oy) {
+    ctx.save();
+    ctx.beginPath(); ctx.arc(cx+ox, cy+oy, pr, 0, Math.PI*2); ctx.clip();
+
+    const pg = ctx.createRadialGradient(cx+ox-46,cy+oy-50,8,cx+ox,cy+oy,pr);
+    pg.addColorStop(0,'#F5A843'); pg.addColorStop(0.4,'#D4711A');
+    pg.addColorStop(0.75,'#9E4510'); pg.addColorStop(1,'#6B2A06');
+    ctx.fillStyle = pg;
+    ctx.fillRect(cx+ox-pr-2, cy+oy-pr-2, (pr+2)*2, (pr+2)*2);
+
+    bands.forEach(b => {
+      const shift = (spinT * b.speed * pr * 2) % (pr * 2);
+      for (let w = -1; w <= 1; w++) {
+        ctx.beginPath();
+        ctx.ellipse(cx+ox+shift+w*pr*2, cy+oy+b.y, pr*1.5, b.ry, 0, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(${b.r},${b.g},${b.b},${b.a})`; ctx.fill();
       }
     });
-  }, { rootMargin: '-40% 0px -55% 0px' });
 
-  sections.forEach(s => observer.observe(s));
+    const hl = ctx.createRadialGradient(cx+ox-42,cy+oy-46,2,cx+ox-28,cy+oy-32,58);
+    hl.addColorStop(0,'rgba(247,192,106,0.48)'); hl.addColorStop(1,'rgba(247,192,106,0)');
+    ctx.fillStyle = hl; ctx.fillRect(cx+ox-pr-2, cy+oy-pr-2, (pr+2)*2, (pr+2)*2);
 
-  navLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      if (window.innerWidth <= 540) sidebar.classList.remove('open');
+    const limb = ctx.createRadialGradient(cx+ox+55,cy+oy+55,pr*0.3,cx+ox,cy+oy,pr);
+    limb.addColorStop(0,'rgba(0,0,0,0)'); limb.addColorStop(0.7,'rgba(0,0,0,0)');
+    limb.addColorStop(1,'rgba(30,10,0,0.55)');
+    ctx.fillStyle = limb; ctx.fillRect(cx+ox-pr-2, cy+oy-pr-2, (pr+2)*2, (pr+2)*2);
+    ctx.restore();
+
+    const atm = ctx.createRadialGradient(cx+ox,cy+oy,pr*0.82,cx+ox,cy+oy,pr*1.06);
+    atm.addColorStop(0,'rgba(232,134,26,0)'); atm.addColorStop(0.7,'rgba(232,134,26,0.18)');
+    atm.addColorStop(1,'rgba(232,134,26,0)');
+    ctx.beginPath(); ctx.arc(cx+ox,cy+oy,pr*1.06,0,Math.PI*2);
+    ctx.fillStyle = atm; ctx.fill();
+  }
+
+  function drawOrbitText(ox, oy, orbitAngle, frontOnly) {
+    ctx.font = 'italic 700 16px Georgia, serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    const chars = fullText.split(''), n = chars.length;
+    chars.forEach((ch, i) => {
+      const t = (i/n)*Math.PI*2 + orbitAngle;
+      const pt = ringPoint(ox, oy, t);
+      const localY = ry*Math.sin(t) + ringOffsetY;
+      const inFront = localY < ringOffsetY;
+      if (frontOnly !== inFront) return;
+      const dx = pt.x-(cx+ox), dy = pt.y-(cy+oy);
+      if (!inFront && Math.sqrt(dx*dx+dy*dy) < pr*0.88) return;
+      const tdx = (-rx*Math.sin(t))*Math.cos(TILT) - (ry*Math.cos(t))*Math.sin(TILT);
+      const tdy = (-rx*Math.sin(t))*Math.sin(TILT) + (ry*Math.cos(t))*Math.cos(TILT);
+      ctx.save();
+      ctx.translate(pt.x, pt.y); ctx.rotate(Math.atan2(tdy, tdx));
+      ctx.fillStyle = inFront ? 'rgba(253,232,184,0.95)' : 'rgba(253,232,184,0.42)';
+      ctx.fillText(ch, 0, 0);
+      ctx.restore();
     });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    driftT += 0.0018; spinT += 0.0025; angle -= 0.008;
+    const ox = Math.sin(driftT*0.7)*7, oy = Math.sin(driftT)*5;
+    stars.forEach(s => {
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle = `rgba(245,208,144,${s.o})`; ctx.fill();
+    });
+    drawRingHalf(ox,oy,'back');
+    drawOrbitText(ox,oy,angle,false);
+    drawPlanet(ox,oy);
+    drawRingHalf(ox,oy,'front');
+    drawOrbitText(ox,oy,angle,true);
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// Nav
+document.querySelectorAll('.nav-list button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.nav-list button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('page-' + btn.dataset.page).classList.add('active');
   });
+});
+
+// Theme
+const tt = document.getElementById('themeToggle');
+tt.addEventListener('click', () => {
+  const next = document.body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.body.setAttribute('data-theme', next);
+  tt.textContent = next === 'dark' ? '☼' : '☾';
+});
 </script>
 </body>
 </html>
