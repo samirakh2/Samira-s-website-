@@ -485,7 +485,7 @@
           <div class="proj-top"><span class="proj-date">September 2026</span><span class="proj-metric">5,200+</span></div>
           <a class="proj-title" href="https://github.com/samirakh2/Market_Predictions_Databricks" target="_blank" rel="noopener">Market Stress Prediction Pipeline</a>
           <img class="proj-visual" src="DBPimage.png" alt="Databricks Loan Default ML System Architecture">
-          <p class="proj-desc">Built an automated ELT and ML pipeline on Databricks using PySpark and Delta Lake, transforming 5,200+ S&P 500/VIX records through a Bronze/Silver/Gold architecture. Trained and tracked a next-day stress prediction model with MLflow, orchestrated as a scheduled Workflow feeding a live Databricks SQL dashboard. Achieved 93.7% accuracy in predicting market stress events.</p>
+          <p class="proj-desc">Built an automated ELT and ML pipeline on Databricks using PySpark and Delta Lake, transforming 5,200+ S&P 500/VIX records through a Bronze/Silver/Gold architecture. Replaced hand-picked volatility thresholds with a Hidden Markov Model (Baum-Welch, Viterbi decoding) to statistically discover market stress regimes, then trained a next-day stress prediction model tracked with MLflow — improving High-stress-day recall from 67% to 95%. Orchestrated as a scheduled Workflow feeding a live Databricks SQL dashboard.</p>
           <div class="stack">Databricks · PySpark · Delta Lake · MLflow · SQL</div>
         </div>
         <div class="project-card">
